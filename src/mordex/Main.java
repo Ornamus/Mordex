@@ -15,7 +15,7 @@ public class Main {
     public static final boolean DEBUG = false;
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.0.2";
+    public static final String version = "1.0.3";
 
     public static void main(String[] args) {
         try {
@@ -48,14 +48,27 @@ public class Main {
                     }
                 }
             }
+            if (new File("challenges.txt").exists()) {
+                try (BufferedReader br = new BufferedReader(new FileReader("challenges.txt"))) {
+                    String line = br.readLine();
+
+                    while (line != null) {
+                        String[] data = line.split("chal");
+                        System.out.println(data[0] + " chal " + data[1]);
+                        Challenge c = new Challenge(jda.getUserById(data[0]), jda.getUserById(data[1]));
+                        Listener.challenges.add(c);
+                        line = br.readLine();
+                    }
+                }
+            }
             admins.add("111570080105541632"); //Ornamus
             admins.add("131098385599037440"); //Aiden
             admins.add("126221145144950784"); //Yammah
             admins.add("110878384891936768"); //LegitPunisher
 
-            Listener.challenges.add(new Challenge(jda.getUserById("131098385599037440"), jda.getUserById("111570080105541632")));
-            Listener.challenges.add(new Challenge(jda.getUserById("126221145144950784"), jda.getUserById("111570080105541632")));
-            Listener.challenges.add(new Challenge(jda.getUserById(jda.getSelfInfo().getId()), jda.getUserById("111570080105541632")));
+            //Listener.challenges.add(new Challenge(jda.getUserById("111570080105541632"), jda.getUserById("111570080105541632")));
+            //Listener.challenges.add(new Challenge(jda.getUserById("126221145144950784"), jda.getUserById("111570080105541632")));
+            //Listener.challenges.add(new Challenge(jda.getUserById(jda.getSelfInfo().getId()), jda.getUserById("111570080105541632")));
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -415,6 +415,11 @@ public class Listener extends ListenerAdapter {
                         writer.println(key + "=" + Listener.DIDToBHID.get(key));
                     }
                     writer.close();
+                    writer = new PrintWriter("challenges.txt", "UTF-8");
+                    for (Challenge c : challenges) {
+                        writer.println(c.a.getId() + "chal" + c.b.getId());
+                    }
+                    writer.close();
                     System.out.println("Save complete.");
                     if (message.startsWith("!update")) {
                         Runtime.getRuntime().exec("java -jar update.jar");
