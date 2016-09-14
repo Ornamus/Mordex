@@ -15,7 +15,7 @@ public class Main {
     public static final boolean DEBUG = false;
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.0.1";
+    public static final String version = "1.0.2";
 
     public static void main(String[] args) {
         try {
