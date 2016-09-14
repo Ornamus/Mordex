@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Mordex:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Mordex_jar</output-path>
+    <root id="archive" name="Mordex.jar">
+      <element id="module-output" name="Mordex" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/JDA-2.2.1_353-javadoc.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/JDA-withDependencies-2.2.1_353.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,199 @@
+package mordex;
+
+import mordex.wrappers.LegendRanked;
+import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.entities.Role;
+import net.dv8tion.jda.entities.User;
+import net.dv8tion.jda.entities.VoiceChannel;
+import net.dv8tion.jda.entities.impl.UserImpl;
+import org.apache.commons.lang3.text.WordUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Pattern;
+
+public class Utils {
+
+    public static String filterChars(String s) {
+        return s.replaceAll("[^A-Za-z0-9()\\[\\]|. ]", "");
+    }
+
+    /**
+     * Sets the game the bot is playing.
+     * @param game The game.
+     */
+    public static void setGame(String game) {
+        Main.getJDA().getAccountManager().setGame(game);
+    }
+
+    /**
+     * Gets a VoiceChannel by name from a specific Guild.
+     * @param g The Guild the VoiceChannel is in.
+     * @param channelName The name of the VoiceChannel.
+     * @return The VoiceChannel, or null if it does not exist.
+     */
+    public static VoiceChannel getVoiceChannel(Guild g, String channelName) {
+        for (VoiceChannel v : g.getVoiceChannels()) {
+            if (v.getName().equalsIgnoreCase(channelName)) return v;
+        }
+        return null;
+    }
+
+    /**
+     * Gets the roles of a User in a Guild.
+     * @param g The Guild.
+     * @param u The User.
+     * @return The User's roles.
+     */
+    public static List<Role> getRoles(Guild g, User u) {
+        return g.getRolesForUser(u);
+    }
+
+    /**
+     * Checks if a User is an admin role.
+     * @param g The Guild the User is in.
+     * @param u The User.
+     * @return If the User is an admin.
+     */
+    public static boolean isAdmin(Guild g, User u) {
+        return isRole(g, u, "admin") || isRole(g, u, "leader");
+    }
+
+    /**
+     * Checks if a User is a specific Guild role.
+     * @param g The Guild.
+     * @param u The User.
+     * @param role The role.
+     * @return If a user is a specific Guild role.
+     */
+    public static boolean isRole(Guild g, User u, String role) {
+        for (Role r : Utils.getRoles(g, u)) {
+            if (r.getName().equalsIgnoreCase(role)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String capitalize(String name) {
+        return WordUtils.capitalize(name);
+    }
+
+    public static List<String> getAllPlayerNames(Guild g) {
+        List<String> usernames = new ArrayList<>();
+        for (User u : g.getUsers()) {
+            usernames.add(u.getUsername());
+            String nickname = g.getNicknameForUser(u);
+            if (nickname != null) usernames.add(nickname);
+        }
+        return usernames;
+    }
+
+    /**
+     * Replaces all Discord usernames with their BHID, if that user has one.
+     *
+     * @param g The Guild that is supplying the user list.
+     * @param starterString The String that contains the usernames.
+     * @return A modified version of starterString that has all Discord Usernames replaced with their BHID.
+     */
+    public static String insertBHIDs(Guild g, String starterString) {
+        String string = Utils.filterASCII(starterString);
+        //System.out.println("Old string: " + string);
+
+        List<String> usernames = new ArrayList<>();
+        //List<User> users = new ArrayList<>();
+        for (String s : Listener.DIDToBHID.keySet()) {
+            User u = g.getUserById(s);
+            if (u != null) {
+                //users.add(u);
+                usernames.add(u.getUsername());
+                String nickname = g.getNicknameForUser(u);
+                if (nickname != null) usernames.add(nickname);
+            }
+        }
+        //System.out.println("Usernames size: " + usernames.size());
+        HashMap<String, String> results = StringUtils.containsPhrase(starterString, toArray(usernames));
+        //System.out.println("Results for player search: " + results.size());
+        if (!results.isEmpty()) {
+            for (String name : results.keySet()) {
+                List<User> userResults = Utils.getUsersMatching(g, name);
+                List<User> usersWithIds = new ArrayList<>();
+                for (User u : userResults) {
+                    Integer possibleID = Listener.DIDToBHID.get(u.getId());
+                    if (possibleID != null) {
+                        if (!usersWithIds.contains(u)) usersWithIds.add(u);
+                    }
+                }
+                //System.out.println("usersWithIds: " + usersWithIds);
+                if (usersWithIds.size() == 1) {
+                    for (User u : userResults) {
+                        Integer possibleID = Listener.DIDToBHID.get(u.getId());
+                        if (possibleID != null) {
+                            string = string.replaceAll("(?i)" + Pattern.quote(results.get(name)), possibleID + "");
+                        }
+                    }
+                } else if (usersWithIds.size() > 1) {
+                    System.out.println("There is more than 1 user with the name \"" + name + "\" in guild \"" + g.getName() + "\" with a BHID registered.");
+                }
+            }
+        }
+        /*
+        for (String s : Listener.DIDToBHID.keySet()) {
+            User u = g.getUserById(s);
+            if (u != null) {
+                Integer possibleID = Listener.DIDToBHID.get(u.getId());
+                if (possibleID != null) {
+                    string = string.replaceAll("(?i)" + Pattern.quote(u.getUsername()), possibleID + "");
+                    String nickname = g.getNicknameForUser(u);
+                    if (nickname != null) string = string.replaceAll("(?i)" + Pattern.quote(g.getNicknameForUser(u)), possibleID + "");
+                }
+            }
+        }
+        */
+        //System.out.println("New string: " + string);
+        return string;
+    }
+
+    /**
+     * Gets all the Users in a Guild who's name or nickname matches the string.
+     *
+     * @param g The Guild.
+     * @param name The name.
+     * @return All the Users in a Guild who's name or nickname matches the string.
+     */
+    public static List<User> getUsersMatching(Guild g, String name) {
+        List<User> users = new ArrayList<>();
+        for (User u : g.getUsers()) {
+            if (u.getUsername().equalsIgnoreCase(name)) users.add(u);
+        }
+        for (User u : g.getUsers()) {
+            String nick = g.getNicknameForUser(u);
+            if (nick != null && nick.equalsIgnoreCase(name)) {
+                if (!users.contains(u)) users.add(u);
+            }
+        }
+        return users;
+    }
+
+    public static String filterASCII(String fil) {
+        return fil.replaceAll("[^\\x00-\\x7F]", "");
+    }
+
+    public static String[] toArray(List<String> list) {
+        String[] array = new String[list.size()];
+        array = list.toArray(array);
+        return array;
+    }
+
+    public static List<JSONObject> getObjects(JSONArray a) {
+        List<JSONObject> objects = new ArrayList<>();
+        for (int i = 0; i < a.length(); i++) {
+            JSONObject o = a.getJSONObject(i);
+            objects.add(o);
+        }
+        return objects;
+    }
+}
