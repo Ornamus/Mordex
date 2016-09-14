@@ -401,7 +401,7 @@ public class Listener extends ListenerAdapter {
                         "`!league PLAYER_NAME`  OR  `!league RANK`");
             }
 
-        } else if (message.startsWith("!shutdown")) {
+        } else if (message.startsWith("!update") || message.startsWith("!shutdown")) {
             if (e.getAuthor().getId().equals("111570080105541632")) {
                 try {
                     System.out.println("Saving users to file...");
@@ -411,7 +411,11 @@ public class Listener extends ListenerAdapter {
                     }
                     writer.close();
                     System.out.println("Save complete.");
-                    System.exit(-1);
+                    if (message.startsWith("!update")) {
+                        Runtime.getRuntime().exec("java -jar update.jar");
+                        System.out.println("Launching updater...");
+                    }
+                    System.exit(0);
                 } catch (Exception exc) {
                     System.out.println("Shutdown file save exception!");
                     exc.printStackTrace();

@@ -9,15 +9,11 @@ public class Updater {
 
     public static void main(String[] args) {
         try {
-            URL gtDownload = new URL("Direct Download Link");
-            saveFile(gtDownload, "bot.jar");
+            URL botDownload = new URL("https://github.com/Ornamus/Mordex/raw/master/out/artifacts/Mordex_jar/Mordex.jar");
+            saveFile(botDownload, "bot.jar");
             System.out.println("[MordexUpdate] Downloaded bot.");
-            File libFile = new File("lib");
-            if (!libFile.exists()) {
-                libFile.mkdirs();
-            }
             Runtime.getRuntime().exec("java -jar bot.jar");
-            System.out.println("[MordexUpdate] Launched bot");
+            System.out.println("[MordexUpdate] Launched bot.");
             System.exit(0); //Is this the correct exit coe?
         } catch (IOException ex) {
             Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);
