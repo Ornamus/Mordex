@@ -12,9 +12,10 @@ import net.dv8tion.jda.managers.AccountManager;
 
 public class Main {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
+    public static final String version = "1.0.1";
 
     public static void main(String[] args) {
         try {

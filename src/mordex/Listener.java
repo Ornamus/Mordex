@@ -400,7 +400,12 @@ public class Listener extends ListenerAdapter {
                 e.getChannel().sendMessage("You need to specify a person or rank to look up. Here's the format:\n\n" +
                         "`!league PLAYER_NAME`  OR  `!league RANK`");
             }
-
+        } else if (message.startsWith("!version")) {
+            e.getChannel().sendTyping();
+            e.getChannel().sendMessage("Current version: " + Main.version);
+        } else if (message.startsWith("!help")) {
+            e.getChannel().sendTyping();
+            e.getChannel().sendMessage("Coming soon! In the mean time, ask another user or Ornamus for help.");
         } else if (message.startsWith("!update") || message.startsWith("!shutdown")) {
             if (e.getAuthor().getId().equals("111570080105541632")) {
                 try {
