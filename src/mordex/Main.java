@@ -15,7 +15,8 @@ public class Main {
     public static final boolean DEBUG = false;
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.0.3";
+    public static final String version = "1.0.4";
+    public static final String ornamus = "111570080105541632";
 
     public static void main(String[] args) {
         try {
@@ -61,14 +62,14 @@ public class Main {
                     }
                 }
             }
-            admins.add("111570080105541632"); //Ornamus
+            admins.add(ornamus);
             admins.add("131098385599037440"); //Aiden
             admins.add("126221145144950784"); //Yammah
             admins.add("110878384891936768"); //LegitPunisher
 
-            //Listener.challenges.add(new Challenge(jda.getUserById("111570080105541632"), jda.getUserById("111570080105541632")));
+            Listener.challenges.add(new Challenge(jda.getUserById("111570080105541632"), jda.getUserById("111570080105541632")));
             //Listener.challenges.add(new Challenge(jda.getUserById("126221145144950784"), jda.getUserById("111570080105541632")));
-            //Listener.challenges.add(new Challenge(jda.getUserById(jda.getSelfInfo().getId()), jda.getUserById("111570080105541632")));
+            Listener.challenges.add(new Challenge(jda.getUserById(jda.getSelfInfo().getId()), jda.getUserById("111570080105541632")));
 
         } catch (Exception e) {
             e.printStackTrace();

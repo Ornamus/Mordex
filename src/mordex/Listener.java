@@ -18,6 +18,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Exchanger;
 
 public class Listener extends ListenerAdapter {
 
@@ -30,6 +31,7 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
+        try {
         String message = e.getMessage().getContent();
         if (message.startsWith("!rank")) { //TODO: when someone says "StC | Yeakoo" and "Yeakoo" has a BHID, it becomes "StC | BHID" and the search fails
             e.getChannel().sendTyping();
@@ -326,6 +328,7 @@ public class Listener extends ListenerAdapter {
                 }
             }
         } else if (message.startsWith("!league challenges")) {
+            e.getChannel().sendTyping();
             List<Challenge> outgoingChallenges = new ArrayList<>();
             List<Challenge> incomingChallenges = new ArrayList<>();
             for (Challenge c : challenges) {
@@ -487,6 +490,21 @@ public class Listener extends ListenerAdapter {
                 }
             } else {
                 e.getChannel().sendMessage("Only admins can use music commands.");
+            }*/
+        }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            /*
+            String error = exception.getMessage();
+            List<String> parts = new ArrayList<>();
+            parts.add(error);
+            while (parts.get(parts.size() - 1).length() > 2000) {
+                String lastPart = parts.get(parts.size() - 1);
+                parts.add(parts.size() - 1, lastPart.substring(0, 2000));
+                parts.add(lastPart.substring(2000, lastPart.length() - 1));
+            }
+            for (String s : parts) {
+                Main.getJDA().getUserById(Main.ornamus).getPrivateChannel().sendMessage(s);
             }*/
         }
     }
