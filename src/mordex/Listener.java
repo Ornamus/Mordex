@@ -414,7 +414,8 @@ public class Listener extends ListenerAdapter {
             e.getChannel().sendMessage("Current version: " + Main.version);
         } else if (message.toLowerCase().startsWith("!help")) {
             e.getChannel().sendTyping();
-            e.getChannel().sendMessage("Coming soon! In the mean time, ask another user or Ornamus for help.");
+            //e.getChannel().sendMessage("Mordex documentation: " + "https://github.com/Ornamus/Mordex/blob/master/DOCUMENTATION");
+            e.getChannel().sendMessage("Coming soon! In the mean time, ask Ornamus or another user for help!");
         } else if (message.toLowerCase().startsWith("!update") || message.toLowerCase().startsWith("!shutdown")) {
             if (e.getAuthor().getId().equals(Main.ornamus)) {
                 try {
