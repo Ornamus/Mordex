@@ -27,8 +27,11 @@ public class Listener extends ListenerAdapter {
 
     private static final String tuaguild = "192497024422248448";
 
-    //TODO: Help command.
-    //TODO: Fix crash when using offline users(?)
+    //TODO: Help command links/posts documentation
+    //TODO: Fix crash when using offline users(???)
+    //TODO: Overhaul of commands (rewrite older ones, move large commands to another file like GroupTracker was
+    //TODO: !league withdraw (Player Name) - Takes back a challenge you sent out
+    //TODO: You can only do two league matches an hour
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
@@ -279,7 +282,7 @@ public class Listener extends ListenerAdapter {
                     }
                 }
             }
-        } else if (message.toLowerCase().startsWith("!league deny")) {
+        } else if (message.toLowerCase().startsWith("!league deny")) { //TODO: Fix bug where commands aren't removed from list when denied?
             e.getChannel().sendTyping();
             message = message.replace("!league deny", "");
             while (message.startsWith(" ")) message = message.replaceFirst(" ", "");

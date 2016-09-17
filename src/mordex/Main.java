@@ -14,7 +14,7 @@ public class Main {
 
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.0.3.5";
+    public static final String version = "1.0.3.6";
     public static final String ornamus = "111570080105541632";
 
     public static final boolean DEBUG = false;
@@ -69,9 +69,9 @@ public class Main {
             admins.add("126221145144950784"); //Yammah
             admins.add("110878384891936768"); //LegitPunisher
 
-            Listener.challenges.add(new Challenge(jda.getUserById("111570080105541632"), jda.getUserById("111570080105541632")));
+            //Listener.challenges.add(new Challenge(jda.getUserById("111570080105541632"), jda.getUserById(ornamus)));
             //Listener.challenges.add(new Challenge(jda.getUserById("126221145144950784"), jda.getUserById("111570080105541632")));
-            Listener.challenges.add(new Challenge(jda.getUserById(jda.getSelfInfo().getId()), jda.getUserById("111570080105541632")));
+            //Listener.challenges.add(new Challenge(jda.getUserById(jda.getSelfInfo().getId()), jda.getUserById(ornamus)));
 
         } catch (Exception e) {
             e.printStackTrace();

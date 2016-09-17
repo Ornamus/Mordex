@@ -7,6 +7,7 @@ public class LeaguePage {
 
     public List<PageEntry> entries = new ArrayList<>();
 
+    //TODO: Bot gives error message when leaguepage formatting gets broken
     public LeaguePage(String data) {
         data = data.replace("\\t", "&");
         data = data.replace("\\n\\n\\n", "NEWENTRY");
@@ -23,9 +24,11 @@ public class LeaguePage {
                 part = part.replace("Title Holder:", "0.");
             }
             if (part.contains(".")) {
+                System.out.println(part);
                 rank = Integer.parseInt(part.substring(0, part.indexOf(".")));
             }
             if (rank != -1) {
+                //TODO: Improve this to make formatting mistakes like "4.Ornamus" to not break the bot
                 String[] args = part.split("&");
                 String name = args[0].substring(args[0].indexOf(" "));
                 while (name.startsWith(" ")) name = name.replaceFirst(" ", "");

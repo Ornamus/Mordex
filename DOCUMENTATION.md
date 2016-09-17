@@ -22,7 +22,7 @@ Registers a Brawlhalla ID to your Discord account. Example:
 
 Shows all current challenges you've sent and received. Example:
 
-    !league challenge
+    !league challenges
 
 ----
 **!league challenge** (Player Name)
@@ -43,7 +43,7 @@ Accepts a player's challenge to a League match. (Player Name) is not required if
 ----
 **!league deny** (Player Name)
 
-Denies player's challenge to a League match. (Player Name) is not required if you only have one pending challenge. Examples:
+Denies a player's challenge to a League match. (Player Name) is not required if you only have one pending challenge. Examples:
 
     !league deny
     !league deny Ornamus
