@@ -12,11 +12,13 @@ import net.dv8tion.jda.managers.AccountManager;
 
 public class Main {
 
-    public static final boolean DEBUG = false;
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.0.4";
+    public static final String version = "1.0.3.5";
     public static final String ornamus = "111570080105541632";
+
+    public static final boolean DEBUG = false;
+    public static final boolean FAKE_CHALLENGING = false;
 
     public static void main(String[] args) {
         try {

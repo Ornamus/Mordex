@@ -28,12 +28,13 @@ public class Listener extends ListenerAdapter {
     private static final String tuaguild = "192497024422248448";
 
     //TODO: Help command.
+    //TODO: Fix crash when using offline users(?)
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
-        try {
+        //try {
         String message = e.getMessage().getContent();
-        if (message.startsWith("!rank")) { //TODO: when someone says "StC | Yeakoo" and "Yeakoo" has a BHID, it becomes "StC | BHID" and the search fails
+        if (message.toLowerCase().startsWith("!rank")) { //TODO: search for Discord user -> BHID, if not do BH rank search
             e.getChannel().sendTyping();
             message = message.replace("!rank", "");
             if (message.length() > 1) {
@@ -107,7 +108,7 @@ public class Listener extends ListenerAdapter {
                 e.getChannel().sendMessage("You need to specify a person or BHID to look up. Here's the format:\n\n" +
                         "`!rank PLAYER_NAME`  OR  `!rank BHID`");
             }
-        } else if (message.startsWith("!bhid") || message.startsWith("!steamid")) {
+        } else if (message.toLowerCase().startsWith("!bhid") || message.toLowerCase().startsWith("!steamid")) {
             e.getChannel().sendTyping();
             boolean steam = message.startsWith("!steamid");
 
@@ -160,7 +161,7 @@ public class Listener extends ListenerAdapter {
                 e.getChannel().sendMessage("You need to specify a BHID or SteamID to connect with your Discord account. Here's the format:\n\n" +
                         "`!bhid YOUR_BHID`  OR  `!steamid YOUR_STEAMID`");
             }
-        } else if (message.startsWith("!league challenge ")) {
+        } else if (message.toLowerCase().startsWith("!league challenge ")) {
             e.getChannel().sendTyping();
             message = message.replace("!league challenge ", ""); //TODO: 2v2 support :(
             if (message.length() > 0) {
@@ -177,25 +178,30 @@ public class Listener extends ListenerAdapter {
                         LeaguePage.PageEntry otherPlayer = page.getByName(result.name);
                         System.out.println(e.getAuthor().getUsername() + " challenging " + otherPlayer.name);
                         double rankDiff = 0;
-                        if (player != null) rankDiff = otherPlayer.rank - player.rank;
+                        if (player != null) rankDiff = player.rank - otherPlayer.rank;
                         if (player == null) System.out.println("Unranked player \"" + e.getAuthor().getUsername() + "\" is challenging anyone in the TUA league");
                         if (Math.abs(rankDiff) <= 14) {
+                            DiscordGetResult discordResult = PlayerGetter.getDiscordUser(otherPlayer.name, Main.getJDA().getUsers());
+                            /*
                             List<User> users = new ArrayList<>();
                             for (User u : Main.getJDA().getUsers()) {
                                 if (!StringUtils.containsPhrase(u.getUsername(), otherPlayer.name).isEmpty()) {
                                     users.add(u);
                                 }
                             }
-                            System.out.println(users.size() + " size");
-                            if (users.size() == 1) {
-                                User otherUser = users.get(0);
-                                otherUser.getPrivateChannel().sendMessage(e.getAuthor().getAsMention() + " has challenged you to a U.A. 1v1 League match! Here are your options:\n\n" +
+                            */
+                            System.out.println("Result: " + discordResult.result);
+                            //if (users.size() == 1) {
+                            if (discordResult.result == DiscordGetResult.SUCCESS) {
+                                User otherUser = discordResult.user;
+                                if (!Main.FAKE_CHALLENGING) otherUser.getPrivateChannel().sendMessage(e.getAuthor().getAsMention() + " has challenged you to a U.A. 1v1 League match! Here are your options:\n\n" +
                                         "`!league accept` -- This will accept the challenge and notify a U.A. Match Ref.\n\n" +
                                         "`!league deny` -- This will deny the challenge.");
                                 e.getChannel().sendMessage("Your challenge has been sent to " + otherUser.getAsMention() + ", " + e.getAuthor().getAsMention() + ".");
                                 challenges.add(new Challenge(e.getAuthor(), otherUser));
                             } else {
-                                System.out.println("uh oh spagettios"); //TODO: deal w/ this correctly
+                                //TODO: deal w/ this correctly
+                                System.out.println("uh oh spagettios");
                             }
                         } else {
                             e.getChannel().sendMessage(e.getAuthor().getAsMention() + ", you can't challenge someone more than 14 ranks above or below you! " + otherPlayer.name + " is " +
@@ -218,7 +224,7 @@ public class Listener extends ListenerAdapter {
                 e.getChannel().sendMessage("You need to specify an opponent to challenge. Here's the format:\n\n" +
                         "`!league challenge OPPONENT_NAME");
             }
-        } else if (message.startsWith("!league accept")) {
+        } else if (message.toLowerCase().startsWith("!league accept")) {
             e.getChannel().sendTyping();
             message = message.replace("!league accept", "");
             while (message.startsWith(" ")) message = message.replaceFirst(" ", "");
@@ -262,10 +268,10 @@ public class Listener extends ListenerAdapter {
             }
             if (opponent != null) {
                 e.getChannel().sendMessage("Challenge accepted! " + opponent.getAsMention() + " and the Ultimate Alliance Match Refs has been notified. Happy battling!");
-                opponent.getPrivateChannel().sendMessage(e.getAuthor().getAsMention() + " has accepted your challenge! The Ultimate Alliance Match Refs has been notified. " +
+                if (!Main.FAKE_CHALLENGING) opponent.getPrivateChannel().sendMessage(e.getAuthor().getAsMention() + " has accepted your challenge! The Ultimate Alliance Match Refs has been notified. " +
                         "Good luck!");
                 Role refs = Main.getJDA().getGuildById(tuaguild).getRoleById("217399692055674880");
-                Main.getJDA().getTextChannelById("217075161109757952").sendMessage(refs.getAsMention() + ", " + e.getAuthor().getAsMention() + " and " + opponent.getAsMention() +
+                if (!Main.FAKE_CHALLENGING) Main.getJDA().getTextChannelById("217075161109757952").sendMessage(refs.getAsMention() + ", " + e.getAuthor().getAsMention() + " and " + opponent.getAsMention() +
                         " have agreed to a 1v1 League match!");
                 for (Challenge c : pendingChallenges) {
                     if (c.isIn(opponent)) {
@@ -273,7 +279,7 @@ public class Listener extends ListenerAdapter {
                     }
                 }
             }
-        } else if (message.startsWith("!league deny")) {
+        } else if (message.toLowerCase().startsWith("!league deny")) {
             e.getChannel().sendTyping();
             message = message.replace("!league deny", "");
             while (message.startsWith(" ")) message = message.replaceFirst(" ", "");
@@ -320,14 +326,14 @@ public class Listener extends ListenerAdapter {
             }
             if (opponent != null) {
                 e.getChannel().sendMessage("You have denied " + opponent.getAsMention() + "'s challenge.");
-                opponent.getPrivateChannel().sendMessage(e.getAuthor().getAsMention() + " has denied your challenge.");
+                if (!Main.FAKE_CHALLENGING) opponent.getPrivateChannel().sendMessage(e.getAuthor().getAsMention() + " has denied your challenge.");
                 for (Challenge c : pendingChallenges) {
                     if (c.isIn(opponent)) {
                         challenges.remove(c);
                     }
                 }
             }
-        } else if (message.startsWith("!league challenges")) {
+        } else if (message.toLowerCase().startsWith("!league challenges")) {
             e.getChannel().sendTyping();
             List<Challenge> outgoingChallenges = new ArrayList<>();
             List<Challenge> incomingChallenges = new ArrayList<>();
@@ -350,7 +356,7 @@ public class Listener extends ListenerAdapter {
             response += "```";
             e.getChannel().sendMessage(response);
             return;
-        } else if (message.startsWith("!league")) { //TODO 2v2 support
+        } else if (message.toLowerCase().startsWith("!league")) { //TODO 2v2 support
             e.getChannel().sendTyping();
             message = message.replace("!league", "");
             while (message.startsWith(" ")) message = message.replaceFirst(" ", "");
@@ -403,14 +409,14 @@ public class Listener extends ListenerAdapter {
                 e.getChannel().sendMessage("You need to specify a person or rank to look up. Here's the format:\n\n" +
                         "`!league PLAYER_NAME`  OR  `!league RANK`");
             }
-        } else if (message.startsWith("!version")) {
+        } else if (message.toLowerCase().startsWith("!version")) {
             e.getChannel().sendTyping();
             e.getChannel().sendMessage("Current version: " + Main.version);
-        } else if (message.startsWith("!help")) {
+        } else if (message.toLowerCase().startsWith("!help")) {
             e.getChannel().sendTyping();
             e.getChannel().sendMessage("Coming soon! In the mean time, ask another user or Ornamus for help.");
-        } else if (message.startsWith("!update") || message.startsWith("!shutdown")) {
-            if (e.getAuthor().getId().equals("111570080105541632")) {
+        } else if (message.toLowerCase().startsWith("!update") || message.toLowerCase().startsWith("!shutdown")) {
+            if (e.getAuthor().getId().equals(Main.ornamus)) {
                 try {
                     System.out.println("Saving users to file...");
                     PrintWriter writer = new PrintWriter("users.txt", "UTF-8");
@@ -434,14 +440,16 @@ public class Listener extends ListenerAdapter {
                     exc.printStackTrace();
                 }
             }
-        } else if (message.startsWith("!chat ")) {
-            message = message.replace("!chat ", "");
-            String channelID = message.split(" ")[0];
-            TextChannel chan = Main.getJDA().getTextChannelById(channelID);
-            chan.sendTyping();
-            message = message.replace(channelID, "");
-            while (message.startsWith(" ")) message = message.replaceFirst(" ", "");
-            chan.sendMessage(message);
+        } else if (message.toLowerCase().startsWith("!chat ")) {
+            if (e.getAuthor().getId().equals(Main.ornamus)) {
+                message = message.replace("!chat ", "");
+                String channelID = message.split(" ")[0];
+                TextChannel chan = Main.getJDA().getTextChannelById(channelID);
+                chan.sendTyping();
+                message = message.replace(channelID, "");
+                while (message.startsWith(" ")) message = message.replaceFirst(" ", "");
+                chan.sendMessage(message);
+            }
         } else if (message.startsWith("!music ")) {
             /*
             if (Utils.isAdmin(e.getGuild(), e.getAuthor())) {
@@ -492,9 +500,9 @@ public class Listener extends ListenerAdapter {
                 e.getChannel().sendMessage("Only admins can use music commands.");
             }*/
         }
+        /*
         } catch (Exception exception) {
             exception.printStackTrace();
-            /*
             String error = exception.getMessage();
             List<String> parts = new ArrayList<>();
             parts.add(error);
@@ -505,7 +513,9 @@ public class Listener extends ListenerAdapter {
             }
             for (String s : parts) {
                 Main.getJDA().getUserById(Main.ornamus).getPrivateChannel().sendMessage(s);
-            }*/
+            }
+
         }
+        */
     }
 }

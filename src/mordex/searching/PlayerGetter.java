@@ -1,7 +1,10 @@
 package mordex.searching;
 
+import com.iwebpp.crypto.TweetNaclFast;
+import mordex.Main;
 import mordex.StringUtils;
 import mordex.Utils;
+import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.User;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,13 +39,28 @@ public class PlayerGetter {
         }
     }
 
+    //TODO: Way to instead take list of guilds and a name, so that you can use the guilds to also check player's nickname
     public static DiscordGetResult getDiscordUser(String name, List<User> users) {
         name = Utils.filterASCII(name);
         List<String> nameList = new ArrayList<>();
+        //HashMap<User, List<String>> userNames = new HashMap<>();
         for (User u : users) {
             nameList.add(u.getUsername());
+            /*
+            List<String> names = new ArrayList<>();
+            names.add(u.getUsername());
+            for (Guild g : Main.getJDA().getGuilds()) {
+                if (g.isMember(u)) {
+                    String nick = g.getNicknameForUser(u);
+                    if (nick != null) names.add(nick);
+                }
+            }
+            userNames.put(u, names);
+            */
         }
         User u = null;
+        //TODO: StringUtils.containsPhrase that take a list of customizable objects thatat least have a string and an indentifier and returns a list of those objects.
+        //TODO: This will allow for finding a user's name and being able to keep the name affiliated with the user instead of finding the user again.
         HashMap<String, String> results = StringUtils.containsPhrase(name, Utils.toArray(nameList));
         if (!results.isEmpty()) {
             String fullName = null;
