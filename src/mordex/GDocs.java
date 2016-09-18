@@ -7,7 +7,7 @@ public class GDocs {
         String sub = result.substring(result.indexOf("\"s\":\"Title Holder:") + 5); //17
         //System.out.println("Origin size " + result.length() + ", new size " + sub.length());
         //System.out.println("First sub: " + sub);
-        sub = sub.substring(0, sub.indexOf("Week Contender:"));
+        sub = sub.substring(0, sub.indexOf("\",\"ibi\""));
         //System.out.println("Origin size " + result.length() + ", new size " + sub.length());
         //System.out.println("Second sub: " + sub);
         //System.out.println("Substring: " + sub);
