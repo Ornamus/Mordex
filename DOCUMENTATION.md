@@ -1,4 +1,4 @@
-# Mordex Documentation
+# Mordex Documentation (Version 1.1)
 
 ## Commands
 ----
@@ -37,7 +37,7 @@ Challenges a player to a League match. Example:
 Accepts a player's challenge to a League match. (Player Name) is not required if you only have one pending challenge. Examples:
 
     !league accept
-    !league accept yammah
+    !league accept BurntPan
 
 
 ----
@@ -47,13 +47,21 @@ Denies a player's challenge to a League match. (Player Name) is not required if 
 
     !league deny
     !league deny Ornamus
+----
+**!league withdraw** (Player Name)
+
+Withdraws a League match challenge you sent to someone. (Player Name) is not required if you only have one outgoing challenge. Examples:
+
+    !league withdraw
+    !league withdraw noel
+
 
 ----
 **!league** (Player Name | Rank)
 
 Gets the League rankings for a player or rank. Examples:
 
-    !league yammah
+    !league lynX
     !league 3
     !league title holder
 
@@ -71,12 +79,51 @@ Gets the current version of the bot. Example:
 
     !version
 
+----
+**!anime** & **!grill** & **!waifu**
+
+Self explanatory. Examples:
+
+    !anime
+    !grill
+    !waifu
+
+
+## Upcoming (Unimplemented) Commands:
+----
+**!tournament join** (Challonge Name | Email)
+
+Joins a Ultimate Alliance League tournament, if it exists. Examples:
+
+    !tournament join Ornamus
+    !tournament join my@email.com
+
+---
+**!tournament** & **!bracket**
+
+Gets the link to the current Ultimate Alliance League tournament, if it exists. Examples:
+
+    !tournament
+    !bracket
 
 ## FAQ
+----
 
 **Who made this bot?**
 
 Ornamus.
+
+----
+
+**I have an idea for the bot. Can it be added?**
+
+Maybe! Contact Ornamus and tell him. If it's good or he likes it, it'll be added!
+
+---
+
+**Can I have this bot on my Discord server?**
+
+Most likely, yes. Contact Ornamus to get things set up.
 
 ----
 **Is this FAQ complete?**

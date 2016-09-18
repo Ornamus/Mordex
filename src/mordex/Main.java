@@ -6,19 +6,32 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import mordex.challonge.Challonge;
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
+import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.managers.AccountManager;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import static org.apache.http.impl.client.HttpClients.*;
 
 public class Main {
 
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.0.3.6";
+    public static final String version = "1.1.0";
     public static final String ornamus = "111570080105541632";
 
     public static final boolean DEBUG = false;
     public static final boolean FAKE_CHALLENGING = false;
+
+    public static boolean tournamentExists = false;
+    public static String tournamentID = null;
+    public static String tournamentURL = null;
 
     public static void main(String[] args) {
         try {
@@ -72,6 +85,7 @@ public class Main {
             //Listener.challenges.add(new Challenge(jda.getUserById("111570080105541632"), jda.getUserById(ornamus)));
             //Listener.challenges.add(new Challenge(jda.getUserById("126221145144950784"), jda.getUserById("111570080105541632")));
             //Listener.challenges.add(new Challenge(jda.getUserById(jda.getSelfInfo().getId()), jda.getUserById(ornamus)));
+            //Listener.challenges.add(new Challenge(jda.getUserById(ornamus), jda.getUserById(jda.getSelfInfo().getId())));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,6 +117,40 @@ public class Main {
             i.printStackTrace();
             return "ERROR GETTING HTML";
         }
+    }
+
+    public static String postTo(String url, List<NameValuePair> pairs) {
+        try {
+            HttpClient httpclient = createDefault();
+            HttpPost httppost = new HttpPost(url);
+
+            /*List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+            params.add(new BasicNameValuePair("param-1", "12345"));
+            params.add(new BasicNameValuePair("param-2", "Hello!"));*/
+            httppost.setEntity(new UrlEncodedFormEntity(pairs, "UTF-8"));
+
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+            if (entity != null) {
+                InputStream instream = entity.getContent();
+                try {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
+                    StringBuilder out = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        out.append(line);
+                    }
+                    String result = out.toString();
+                    return result;
+                } finally {
+                    instream.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

@@ -12,7 +12,7 @@ public class RankedPage {
     private final List<RankedEntry> entries = new ArrayList<>();
 
     public RankedPage(JSONArray array) {
-        for (JSONObject o : Utils.getObjects(array)) {
+        for (JSONObject o : Utils.getJSONObjects(array)) {
             entries.add(new RankedEntry(o));
         }
     }

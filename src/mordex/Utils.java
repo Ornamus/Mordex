@@ -1,15 +1,20 @@
 package mordex;
 
-import mordex.wrappers.LegendRanked;
+import mordex.stringutils.StringUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.Role;
 import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.entities.VoiceChannel;
-import net.dv8tion.jda.entities.impl.UserImpl;
 import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -188,12 +193,44 @@ public class Utils {
         return array;
     }
 
-    public static List<JSONObject> getObjects(JSONArray a) {
+    public static <T> T[] toArray(List<T> list, Class tClass) {
+        T[] array = (T[]) Array.newInstance(tClass, list.size());
+        array = list.toArray(array);
+        return array;
+    }
+
+    public static List<JSONObject> getJSONObjects(JSONArray a) {
         List<JSONObject> objects = new ArrayList<>();
         for (int i = 0; i < a.length(); i++) {
             JSONObject o = a.getJSONObject(i);
             objects.add(o);
         }
         return objects;
+    }
+
+    public static List<Object> getObjects(JSONArray a) {
+        List<Object> objects = new ArrayList<>();
+        for (int i = 0; i < a.length(); i++) {
+            Object o = a.get(i);
+            objects.add(o);
+        }
+        return objects;
+    }
+
+    public static void saveFile(URL url, String destinationFile) {
+        try {
+            InputStream is = url.openStream();
+            OutputStream os = new FileOutputStream(destinationFile);
+
+            byte[] b = new byte[2048];
+            int length;
+
+            while ((length = is.read(b)) != -1) {
+                os.write(b, 0, length);
+            }
+
+            is.close();
+            os.close();
+        } catch (Exception e) {}
     }
 }

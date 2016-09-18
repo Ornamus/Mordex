@@ -1,9 +1,9 @@
 package mordex.searching;
 
-import com.iwebpp.crypto.TweetNaclFast;
 import mordex.Main;
-import mordex.StringUtils;
+import mordex.stringutils.StringUtils;
 import mordex.Utils;
+import mordex.stringutils.UserSearchObject;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.User;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import java.util.List;
 
 public class PlayerGetter {
 
+    //TODO: refactor to getName and NameGetResult
     public static PlayerGetResult getPlayer(String name, List<String> nameList) {
         name = Utils.filterASCII(name);
         HashMap<String, String> results = StringUtils.containsPhrase(name, Utils.toArray(nameList));
@@ -39,14 +40,12 @@ public class PlayerGetter {
         }
     }
 
-    //TODO: Way to instead take list of guilds and a name, so that you can use the guilds to also check player's nickname
     public static DiscordGetResult getDiscordUser(String name, List<User> users) {
         name = Utils.filterASCII(name);
-        List<String> nameList = new ArrayList<>();
         //HashMap<User, List<String>> userNames = new HashMap<>();
+
+        List<UserSearchObject> allUsers = new ArrayList<>();
         for (User u : users) {
-            nameList.add(u.getUsername());
-            /*
             List<String> names = new ArrayList<>();
             names.add(u.getUsername());
             for (Guild g : Main.getJDA().getGuilds()) {
@@ -55,8 +54,27 @@ public class PlayerGetter {
                     if (nick != null) names.add(nick);
                 }
             }
-            userNames.put(u, names);
-            */
+            allUsers.add(new UserSearchObject(u, names));
+        }
+        List<UserSearchObject> results = StringUtils.containsPhrase(name, Utils.toArray(allUsers, UserSearchObject.class));
+        if (results.size() > 0) {
+            if (results.size() == 1) {
+                return new DiscordGetResult(0, results.get(0).user);
+            } else {
+                return new DiscordGetResult(1, null);
+            }
+        } else {
+            return new DiscordGetResult(2, null);
+        }
+    }
+
+    /*
+    public static DiscordGetResult getDiscordUser(String name, List<User> users) {
+        name = Utils.filterASCII(name);
+        List<String> nameList = new ArrayList<>();
+        //HashMap<User, List<String>> userNames = new HashMap<>();
+        for (User u : users) {
+            nameList.add(u.getUsername());
         }
         User u = null;
         //TODO: StringUtils.containsPhrase that take a list of customizable objects thatat least have a string and an indentifier and returns a list of those objects.
@@ -65,10 +83,6 @@ public class PlayerGetter {
         if (!results.isEmpty()) {
             String fullName = null;
             if (results.size() == 1) {
-                /*
-                for (String s : results.keySet()) {
-                    System.out.println("Results size: " + results.size() + ". results content: " + s);
-                }*/
                 for (String s : results.keySet()) {
                     for (User whichUser : users) {
                         if (whichUser.getUsername().equals(s)) {
@@ -97,5 +111,5 @@ public class PlayerGetter {
         } else {
             return new DiscordGetResult(3, null);
         }
-    }
+    }*/
 }
