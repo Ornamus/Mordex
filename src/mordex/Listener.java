@@ -116,7 +116,6 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
-        System.out.println("WHERE ARE MY LOGS");
         String message = e.getMessage().getContent();
         for (Command c : commands) {
             for (String s : c.starts) {
@@ -130,7 +129,6 @@ public class Listener extends ListenerAdapter {
                 }
             }
         }
-        System.out.println("No command?");
     }
 
     public void OLDonMessageReceived(MessageReceivedEvent e) {
