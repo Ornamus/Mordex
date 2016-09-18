@@ -1,5 +1,7 @@
 package mordex;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -17,13 +19,16 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+
+import javax.swing.*;
+
 import static org.apache.http.impl.client.HttpClients.*;
 
 public class Main {
 
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.1.0";
+    public static final String version = "1.1.1";
     public static final String ornamus = "111570080105541632";
 
     public static final boolean DEBUG = false;
@@ -32,6 +37,22 @@ public class Main {
     public static boolean tournamentExists = false;
     public static String tournamentID = null;
     public static String tournamentURL = null;
+
+    private static String[] games = {"BMG Beta API", "Bothalla", "U.A. League", "Battlebots", "FIRST Stronghold", "What Bow?",
+    "Hiding a Body", "( ͡° ͜ʖ ͡°)", "Robot Uprising", "Stalking Yammah", "\"gayomi ffs\"",};
+
+    private static String currentGame = null;
+    private static Timer t = new Timer(/*(5 * 60) * 1000*/ 60000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            AccountManager acc = Main.getJDA().getAccountManager();
+            String game = games[Utils.randomInt(0, games.length - 1)];
+            while (game.equalsIgnoreCase(currentGame)) game = games[Utils.randomInt(0, games.length - 1)];
+            acc.setGame(game);
+            acc.update();
+            System.out.println("game updated to \"" + game + "\".");
+        }
+    });
 
     public static void main(String[] args) {
         try {
@@ -46,11 +67,11 @@ public class Main {
             AccountManager acc = jda.getAccountManager();
             acc.reset();
             acc.update();
-            if (DEBUG) {
-                acc.setGame("Development Build");
-            } else {
-                acc.setGame("BMG Beta API");
-            }
+
+            currentGame = games[Utils.randomInt(0, games.length - 1)];
+            acc.setGame(currentGame);
+            t.start();
+
             acc.setIdle(false);
             acc.update();
             if (new File("users.txt").exists()) {

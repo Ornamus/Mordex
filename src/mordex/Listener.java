@@ -108,6 +108,7 @@ public class Listener extends ListenerAdapter {
                 chan.sendMessage(message);
             }
         }));
+        commands.add(new QuickCommand("( ͡° ͜ʖ ͡°)").setHandler((message, e) -> e.getChannel().sendMessage("( ͡° ͜ʖ ͡°)")).setTriggerOnSelf(false));
         //TODO: LeagueWithdrawCommand
     }
 
@@ -120,12 +121,14 @@ public class Listener extends ListenerAdapter {
         for (Command c : commands) {
             for (String s : c.starts) {
                 if (message.toLowerCase().startsWith(s)) {
-                    e.getChannel().sendTyping();
-                    message = message.substring(s.length(), message.length());
-                    message = Utils.filterASCII(message);
-                    while (message.startsWith(" ")) message = message.replaceFirst(" ", "");
-                    c.run(message, e);
-                    return;
+                    if (c.triggerOnSelf || (!e.getAuthor().getId().equals(Main.getJDA().getSelfInfo().getId()))) {
+                        e.getChannel().sendTyping();
+                        message = message.substring(s.length(), message.length());
+                        message = Utils.filterASCII(message);
+                        while (message.startsWith(" ")) message = message.replaceFirst(" ", "");
+                        c.run(message, e);
+                        return;
+                    }
                 }
             }
         }

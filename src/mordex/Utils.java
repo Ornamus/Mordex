@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -232,5 +233,15 @@ public class Utils {
             is.close();
             os.close();
         } catch (Exception e) {}
+    }
+
+    private static Random random = new Random();
+
+    public static int randomInt(int min, int max) {
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = random.nextInt((max - min) + 1) + min;
+
+        return randomNum;
     }
 }
