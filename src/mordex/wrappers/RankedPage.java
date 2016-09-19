@@ -34,8 +34,10 @@ public class RankedPage {
         public int rank, elo, peak_elo, bhid, games, wins, losses;
 
         public RankedEntry(JSONObject o) {
+            //System.out.println(o.toString());
             name = o.getString("name");
-            region = o.getString("region");
+            if (!o.isNull("region")) region = o.getString("region");
+            else region = null;
             tier = o.getString("tier");
             rank = o.getInt("rank");
             elo = o.getInt("rating");

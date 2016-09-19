@@ -54,7 +54,7 @@ public class Listener extends ListenerAdapter {
         //commands.add(new TournamentGetCommand());
         */
         commands.add(new QuickCommand("!version").setHandler((message, e) -> e.getChannel().sendMessage("Current version: " + Main.version)));
-        commands.add(new QuickCommand("!help").setHandler((message, e) -> e.getChannel().sendMessage("Mordex documentation: " + "https://notehub.org/g1ciy")));
+        commands.add(new QuickCommand("!help", "!documentation").setHandler((message, e) -> e.getChannel().sendMessage("Mordex documentation: " + "https://notehub.org/g1ciy")));
         commands.add(new QuickCommand("!grill", "!anime", "!waifu").setHandler((message, e) -> e.getChannel().sendMessage("http://i.imgur.com/XPX7YtD.png")));
         commands.add(new QuickCommand("!update", "!shutdown").setHandler((message, e) -> { //TODO: move to UpdateCommand class
             message = e.getMessage().getContent(); //Get the original, unaltered message

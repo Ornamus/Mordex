@@ -25,7 +25,7 @@ public class Main {
 
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.1.3";
+    public static final String version = "1.1.3.1";
     public static final String ornamus = "111570080105541632";
 
     public static final boolean DEBUG = false;
