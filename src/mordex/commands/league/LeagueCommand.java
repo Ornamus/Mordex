@@ -10,7 +10,7 @@ import net.dv8tion.jda.events.message.MessageReceivedEvent;
 public class LeagueCommand extends Command {
 
     public LeagueCommand() {
-        super("!league");
+        super("!yammah");
     }
 
     @Override
@@ -18,11 +18,13 @@ public class LeagueCommand extends Command {
         if (message.length() > 0) {
             LeaguePage page = new LeaguePage(GDocs.getPage());
             String arg = message;
+            /*
             if (arg.contains("title holder")) arg = arg.replace("title holder", "0");
             if (arg.contains("title")) arg = arg.replace("title", "0");
             if (arg.contains("holder")) arg = arg.replace("holder", "0");
             if (arg.contains("champion")) arg = arg.replace("champion", "0");
             if (arg.contains("champ")) arg = arg.replace("champ", "0");
+            */
             //System.out.println("Arg: " + arg);
             int rank = -1;
             try {
@@ -38,11 +40,11 @@ public class LeagueCommand extends Command {
                     e.getChannel().sendMessage("There is no player with rank \"" + rank + "\"! Try a different rank.");
                 }
             } else if (arg.equals("rankings")) {
-                String response = "```Markdown\n<Ultimate Alliance 1v1 League Top 10>\n\n";
+                String response = "```Markdown\n<Yammah's Invitational Tourneys Top 10>\n\n";
                 for (LeaguePage.PageEntry entry : page.entries) {
                     if (entry.rank <= 10) {
                         response += "# " + entry.name + " (" + (entry.rank == 0 ? "Title Holder" : ("Rank " + entry.rank)) + ")\n\t" +
-                                entry.getWinLossTieDisplay() + ": " + entry.getWinLossTie() + "\n\tPoints: " + entry.points + "\n\n";
+                               "Points: " + entry.points + "\n\n";
                     }
                 }
                 response += "```";
@@ -62,7 +64,7 @@ public class LeagueCommand extends Command {
             }
         } else {
             e.getChannel().sendMessage("You need to specify a person or rank to look up. Here's the format:\n\n" +
-                    "`!league PLAYER_NAME`  OR  `!league RANK`");
+                    "`!yammah PLAYER_NAME`  OR  `!yammah RANK`");
         }
     }
 }

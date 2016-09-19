@@ -8,48 +8,50 @@ public class LeaguePage {
     public List<PageEntry> entries = new ArrayList<>();
 
     //TODO: Bot gives error message when leaguepage formatting gets broken
-    public LeaguePage(String data) {
-        data = data.replace("\\t", "&");
-        data = data.replace("\\n\\n\\n", "NEWENTRY");
+    public LeaguePage(String pageRaw) {
+        String data = pageRaw;
+        data = data.replace("The rankings and seeding\\n\\n", "");
+        while (data.contains("\\n\\n")) data = data.replace("\\n\\n", "\\n");
         data = data.replace("\\n", "NEWENTRY");
-        while (data.contains("&&")) {
-            data = data.replace("&&", "&");
-        }
-        //System.out.println("New data: " + data);
+
+        while (data.contains("\\t\\t")) data = data.replace("\\t\\t", "\\t");
+        data = data.replace("\\t", "&");
+
+        System.out.println("New data: " + data);
         String[] parts = data.split("NEWENTRY");
+        int rank = 1;
         for (String s : parts) {
             String part = s;
-            int rank = -1;
-            if (part.startsWith("Title Holder:")) {
-                part = part.replace("Title Holder:", "0.");
+            if (part.contains("Points")) {
+                while (part.contains(" Points")) part = part.replace(" Points", "Points");
+                String name = part.substring(0, part.indexOf("Points"));
+                if (name.endsWith("&")) name = name.substring(0, name.length() - 1);
+                while (name.endsWith(" ")) name = name.substring(0, name.length()-1);
+                String pointsString = part.substring(part.indexOf("Points") + 7);
+                if (pointsString.contains(" ")) pointsString = pointsString.replace(" ", "");
+                //System.out.println("PointsString: " + pointsString);
+                Integer points = null;
+                try {
+                    points = Integer.parseInt(pointsString);
+                } catch (NumberFormatException ex) {
+                    System.out.println("number format exception :(");
+                }
+                if (points != null) {
+                    entries.add(new PageEntry(name, rank, points));
+                }
             }
-            if (part.contains(".")) {
-                System.out.println(part);
-                rank = Integer.parseInt(part.substring(0, part.indexOf(".")));
-            }
-            if (rank != -1) {
-                //TODO: Improve this to make formatting mistakes like "4.Ornamus" to not break the bot
-                String[] args = part.split("&");
-                String name = args[0].substring(args[0].indexOf(" "));
-                while (name.startsWith(" ")) name = name.replaceFirst(" ", "");
-                while (name.endsWith(" ")) name = name.substring(0, name.length() - 1);
-                String[] matchData = args[1].split("/");
-                int wins = Integer.parseInt(matchData[0]);
-                int losses = Integer.parseInt(matchData[1]);
-                int ties = Integer.parseInt(matchData[2]);
-                double points = Double.parseDouble(args[2]);
-                entries.add(new PageEntry(rank, name, wins, losses, ties, points));
-            }
+            rank++;
         }
 
         /*
         for (PageEntry e : entries) {
             System.out.println("=====NEW ENTRY====");
-            System.out.println(e.rank + ": " + e.name);
-            System.out.println(e.wins + "-" + e.losses + (e.ties > 0 ? ("-" + e.ties) : "") + " (" + e.points + " points)");
+            System.out.println(e.rank + ": " + e.name + " - Points: " + e.points);
+            //System.out.println(e.wins + "-" + e.losses + (e.ties > 0 ? ("-" + e.ties) : "") + " (" + e.points + " points)");
         }
         System.out.println("entries done");
         */
+
     }
 
     public List<String> getAllNames() {
@@ -80,38 +82,24 @@ public class LeaguePage {
 
     public class PageEntry {
 
-        public final int rank, wins, losses, ties;
         public final String name;
+        public final int rank;
         public final double points;
-        public final boolean hasTies;
 
-        public PageEntry(int rank, String name, int wins, int losses, int ties, double points) {
-            this.rank = rank;
+        public PageEntry(String name, int rank, double points) {
             this.name = name;
-            this.wins = wins;
-            this.losses = losses;
-            this.ties = ties;
+            this.rank = rank;
             this.points = points;
-            hasTies = ties > 0;
         }
 
         public String getInfo() {
             String response = "```Markdown\n" +
                     "# Player Name: " + name + "\n\n" +
-                    "Region: " + "Ultimate Alliance 1v1 League\n" +
+                    "Region: " + "Yammah's Invitational Tourneys\n" +
                     "Rank: " + (rank > 0 ? rank : "Title Holder") + "\n" +
-                    getWinLossTieDisplay() + ": " + getWinLossTie() + "\n" +
                     "Points: " + points + "\n" +
                     "```";
             return response;
-        }
-
-        public String getWinLossTieDisplay() {
-            return "Win/Loss" + (hasTies ? "/Tie" : "");
-        }
-
-        public String getWinLossTie() {
-            return wins + "/" + losses + (hasTies ? ("/" + ties) : "");
         }
     }
 }
