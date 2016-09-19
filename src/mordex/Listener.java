@@ -40,20 +40,21 @@ public class Listener extends ListenerAdapter {
     public Listener() {
         commands.add(new BHIDCommand());
         commands.add(new RankCommand());
+        /*
         commands.add(new LeagueChallengesCommand());
         commands.add(new LeagueChallengeCommand());
         commands.add(new LeagueAcceptCommand());
         commands.add(new LeagueDenyCommand());
         commands.add(new LeagueWithdrawCommand());
         commands.add(new LeagueCommand());
+        */
+        /*
         //commands.add(new TournamentCreateCommand());
         //commands.add(new TournamentJoinCommand());
         //commands.add(new TournamentGetCommand());
+        */
         commands.add(new QuickCommand("!version").setHandler((message, e) -> e.getChannel().sendMessage("Current version: " + Main.version)));
-        commands.add(new QuickCommand("!help").setHandler((message, e) -> {
-            e.getChannel().sendMessage("Mordex documentation: " + "https://notehub.org/g1ciy");
-            //e.getChannel().sendMessage("Coming soon! In the mean time, ask Ornamus or another user for help!");
-        }));
+        commands.add(new QuickCommand("!help").setHandler((message, e) -> e.getChannel().sendMessage("Mordex documentation: " + "https://notehub.org/g1ciy")));
         commands.add(new QuickCommand("!grill", "!anime", "!waifu").setHandler((message, e) -> e.getChannel().sendMessage("http://i.imgur.com/XPX7YtD.png")));
         commands.add(new QuickCommand("!update", "!shutdown").setHandler((message, e) -> { //TODO: move to UpdateCommand class
             message = e.getMessage().getContent(); //Get the original, unaltered message
@@ -108,7 +109,7 @@ public class Listener extends ListenerAdapter {
                 chan.sendMessage(message);
             }
         }));
-        commands.add(new QuickCommand("( ͡° ͜ʖ ͡°)").setHandler((message, e) -> e.getChannel().sendMessage("( ͡° ͜ʖ ͡°)")).setTriggerOnSelf(false));
+        commands.add(new QuickCommand("( ͡° ͜ʖ ͡°)", "!lenny").setHandler((message, e) -> e.getChannel().sendMessage("( ͡° ͜ʖ ͡°)")).setTriggerOnSelf(false));
         //TODO: LeagueWithdrawCommand
     }
 
