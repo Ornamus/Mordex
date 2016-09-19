@@ -99,71 +99,6 @@ public class Utils {
     }
 
     /**
-     * Replaces all Discord usernames with their BHID, if that user has one.
-     *
-     * @param g The Guild that is supplying the user list.
-     * @param starterString The String that contains the usernames.
-     * @return A modified version of starterString that has all Discord Usernames replaced with their BHID.
-     */
-    public static String insertBHIDs(Guild g, String starterString) {
-        String string = Utils.filterASCII(starterString);
-        //System.out.println("Old string: " + string);
-
-        List<String> usernames = new ArrayList<>();
-        //List<User> users = new ArrayList<>();
-        for (String s : Listener.DIDToBHID.keySet()) {
-            User u = g.getUserById(s);
-            if (u != null) {
-                //users.add(u);
-                usernames.add(u.getUsername());
-                String nickname = g.getNicknameForUser(u);
-                if (nickname != null) usernames.add(nickname);
-            }
-        }
-        //System.out.println("Usernames size: " + usernames.size());
-        HashMap<String, String> results = StringUtils.containsPhrase(starterString, toArray(usernames));
-        //System.out.println("Results for player search: " + results.size());
-        if (!results.isEmpty()) {
-            for (String name : results.keySet()) {
-                List<User> userResults = Utils.getUsersMatching(g, name);
-                List<User> usersWithIds = new ArrayList<>();
-                for (User u : userResults) {
-                    Integer possibleID = Listener.DIDToBHID.get(u.getId());
-                    if (possibleID != null) {
-                        if (!usersWithIds.contains(u)) usersWithIds.add(u);
-                    }
-                }
-                //System.out.println("usersWithIds: " + usersWithIds);
-                if (usersWithIds.size() == 1) {
-                    for (User u : userResults) {
-                        Integer possibleID = Listener.DIDToBHID.get(u.getId());
-                        if (possibleID != null) {
-                            string = string.replaceAll("(?i)" + Pattern.quote(results.get(name)), possibleID + "");
-                        }
-                    }
-                } else if (usersWithIds.size() > 1) {
-                    System.out.println("There is more than 1 user with the name \"" + name + "\" in guild \"" + g.getName() + "\" with a BHID registered.");
-                }
-            }
-        }
-        /*
-        for (String s : Listener.DIDToBHID.keySet()) {
-            User u = g.getUserById(s);
-            if (u != null) {
-                Integer possibleID = Listener.DIDToBHID.get(u.getId());
-                if (possibleID != null) {
-                    string = string.replaceAll("(?i)" + Pattern.quote(u.getUsername()), possibleID + "");
-                    String nickname = g.getNicknameForUser(u);
-                    if (nickname != null) string = string.replaceAll("(?i)" + Pattern.quote(g.getNicknameForUser(u)), possibleID + "");
-                }
-            }
-        }
-        */
-        //System.out.println("New string: " + string);
-        return string;
-    }
-
-    /**
      * Gets all the Users in a Guild who's name or nickname matches the string.
      *
      * @param g The Guild.
@@ -184,9 +119,10 @@ public class Utils {
         return users;
     }
 
+    /*
     public static String filterASCII(String fil) {
         return fil.replaceAll("[^\\x00-\\x7F]", "");
-    }
+    }*/
 
     public static String[] toArray(List<String> list) {
         String[] array = new String[list.size()];

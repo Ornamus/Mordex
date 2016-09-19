@@ -30,8 +30,8 @@ public class StringUtils {
     }
 
     public static boolean contains(String message, String word) {
-        message = Utils.filterASCII(message);
-        word = Utils.filterASCII(word);
+        //message = Utils.filterASCII(message);
+        //word = Utils.filterASCII(word);
         for (String s : getWords(message)) {
             if (s.equalsIgnoreCase(word)) {
                 return true;
@@ -45,10 +45,10 @@ public class StringUtils {
     }
 
     public static List<String> contains(String message, String... list) {
-        message = Utils.filterASCII(message);
+        //message = Utils.filterASCII(message);
         List<String> objects = new ArrayList<String>();
         for (String s : list) {
-            s = Utils.filterASCII(s);
+            //s = Utils.filterASCII(s);
             if (contains(message, s)) {
                 objects.add(s);
             }
@@ -61,7 +61,7 @@ public class StringUtils {
 
     public static <T extends SearchObject> List<T> containsPhrase(String message, T...searchObjects) {
         List<T> objects = new ArrayList<>();
-        message = Utils.filterASCII(message);
+       // message = Utils.filterASCII(message);
         for (T t : searchObjects) {
             for (String s : t.text) {
                 HashMap<String, String> result = containsPhrase(message, s);
@@ -74,11 +74,11 @@ public class StringUtils {
     }
 
     public static HashMap<String, String> containsPhrase(String message, String... array) {
-        message = Utils.filterASCII(message);
+        //message = Utils.filterASCII(message);
         HashMap<String, Integer> matches = new HashMap<>();
         HashMap<String, String> results = new HashMap<>();
         for (String o : array) {
-            o = Utils.filterASCII(o);
+            //o = Utils.filterASCII(o);
             int partMatches = 0;
             List<String> phraseWords = getWords(o);
             for (String s : phraseWords) {

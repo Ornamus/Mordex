@@ -14,7 +14,7 @@ public class PlayerGetter {
 
     //TODO: refactor to getName and NameGetResult
     public static PlayerGetResult getPlayer(String name, List<String> nameList) {
-        name = Utils.filterASCII(name);
+        //name = Utils.filterASCII(name);
         HashMap<String, String> results = StringUtils.containsPhrase(name, Utils.toArray(nameList));
         if (!results.isEmpty()) {
             String fullName = null;
@@ -41,7 +41,7 @@ public class PlayerGetter {
     }
 
     public static DiscordGetResult getDiscordUser(String name, List<User> users) {
-        name = Utils.filterASCII(name);
+        //name = Utils.filterASCII(name);
         //HashMap<User, List<String>> userNames = new HashMap<>();
 
         List<UserSearchObject> allUsers = new ArrayList<>();

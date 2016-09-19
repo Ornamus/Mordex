@@ -126,7 +126,7 @@ public class Listener extends ListenerAdapter {
                     if (c.triggerOnSelf || (!e.getAuthor().getId().equals(Main.getJDA().getSelfInfo().getId()))) {
                         e.getChannel().sendTyping();
                         message = message.substring(s.length(), message.length());
-                        message = Utils.filterASCII(message);
+                        //message = Utils.filterASCII(message);
                         while (message.startsWith(" ")) message = message.replaceFirst(" ", "");
                         c.run(message, e);
                         return;

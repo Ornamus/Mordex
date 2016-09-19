@@ -79,15 +79,18 @@ public class RankCommand extends Command {
                     e.getChannel().sendMessage(response);
                 } else if (page.getEntryCount() > 1) {
                     String response = page.getEntryCount() + " results found for \"" + name + "\". Try being more specific, or use/register a BHID to search with instead.";
-                    if (page.getEntryCount() <= 6) {
-                        response += " Results Found (for narrowing your search):\n```\n";
+                    //if (page.getEntryCount() <= 6) {
+                        response += (page.getEntryCount() > 6 ? " Top 6" : "") + " Results Found (for narrowing your search):\n```\n";
+                        int num = 0;
                         for (RankedPage.RankedEntry r : page.getEntries()) {
-                            response += r.name + " -- " + r.elo + " ELO -- BHID " + r.bhid + "\n";
+                            num++;
+                            if (num > 6) break;
+                            response += r.name + " -- " + r.elo + " ELO -- BHID " + r.bhid + " -- " + r.region + "\n";;
                         }
                         response += "```";
-                    } else {
+                    /*} else {
                         response += " Too many results to display.";
-                    }
+                    }*/
                     e.getChannel().sendMessage(response);
                 } else {
                     e.getChannel().sendMessage("No results found for a player named \"" + name + "\"! Try being less specific, double check your spelling, or use/register " +
