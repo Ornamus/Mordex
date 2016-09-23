@@ -25,7 +25,7 @@ public class Main {
 
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.1.3.2";
+    public static final String version = "1.1.3.3";
     public static final String ornamus = "111570080105541632";
 
     public static final boolean DEBUG = false;
@@ -38,19 +38,16 @@ public class Main {
     private static String[] games = {"BMG Beta API", "Bothalla", "Yammah's Tourney", "Battlebots", "FIRST Stronghold", "What Bow?",
     "Hiding a Body", "( ͡° ͜ʖ ͡°)", "Robot Uprising", "Stalking Yammah", "\"gayomi ffs\"", "Feeding Turtles", "01100110 01110101",
     "Witty Title", "Biteforce", "Parry", "Winning BCX", "Cookie Clicker", "Dark Souls IV", "Rivals of Aether", "Stealing Money", "CS:GO",
-    "Eating w/ Yammah", "Joining BOO", "Roasting Berthen"};
+    "Eating w/ Yammah", "Fighting noel", "Roasting Berthen"};
 
     private static String currentGame = null;
-    private static Timer t = new Timer(/*(5 * 60) * 1000*/ 60000, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            AccountManager acc = Main.getJDA().getAccountManager();
-            String game = games[Utils.randomInt(0, games.length - 1)];
-            while (game.equalsIgnoreCase(currentGame)) game = games[Utils.randomInt(0, games.length - 1)];
-            acc.setGame(game);
-            acc.update();
-            System.out.println("game updated to \"" + game + "\".");
-        }
+    private static Timer t = new Timer(/*(5 * 60) * 1000*/ 60000, e -> {
+        AccountManager acc = Main.getJDA().getAccountManager();
+        String game = games[Utils.randomInt(0, games.length - 1)];
+        while (game.equalsIgnoreCase(currentGame)) game = games[Utils.randomInt(0, games.length - 1)];
+        acc.setGame(game);
+        acc.update();
+        System.out.println("game updated to \"" + game + "\".");
     });
 
     public static void main(String[] args) {

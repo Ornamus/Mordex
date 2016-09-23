@@ -3,6 +3,7 @@ package mordex.commands;
 import mordex.BHApi;
 import mordex.Listener;
 import mordex.Main;
+import mordex.Utils;
 import mordex.searching.DiscordGetResult;
 import mordex.searching.PlayerGetter;
 import mordex.wrappers.LegendRanked;
@@ -49,11 +50,13 @@ public class RankCommand extends Command {
                             bestLegend = l;
                         }
                     }
+                    Double percentDouble = player.wins / (player.games * 1.0);
+                    percentDouble = Utils.roundToPlace(percentDouble * 100, 0);
                     String response = "```Markdown\n" +
                             "# Player Name: " + player.name + "\n\n" +
                             "Region: " + player.region + "\n" +
                             "ELO: " + player.elo + " (" + player.tier + ")\n" +
-                            "Win/Loss: " + player.wins + "/" + player.losses + "\n" +
+                            "Win/Loss: " + player.wins + "/" + player.losses + " (" + percentDouble.intValue() + "% winrate)\n" +
                             "Rank: " + player.region_rank + " (" + player.global_rank + " global)\n" +
                             "Best Legend: <" + bestLegend.name + "> " + bestLegend.elo + " ELO\n" +
                             "Brawlhalla ID: " + player.bhid + "\n" +
@@ -65,12 +68,17 @@ public class RankCommand extends Command {
             } else {
                 RankedPage page = BHApi.getRankedSearch(name);
                 if (page.getEntryCount() == 1) {
+                    System.out.println("searching for " + name);
                     RankedPage.RankedEntry player = page.getEntry(0);
+
+                    Double percentDouble = player.wins / (player.games * 1.0);
+                    percentDouble = Utils.roundToPlace(percentDouble * 100, 0);
+
                     String response = "```Markdown\n" +
                             "# Player Name: " + player.name + "\n\n" +
                             "Region: " + player.region + "\n" +
                             "ELO: " + player.elo + " (" + player.tier + ")\n" +
-                            "Win/Loss: " + player.wins + "/" + player.losses + "\n" +
+                            "Win/Loss: " + player.wins + "/" + player.losses + " (" + percentDouble.intValue() + "% winrate)\n" +
                             "Global Rank: " + player.rank + "\n" +
                             "Brawlhalla ID: " + player.bhid + "\n\n" +
                             "<Notice> This search was not done using a BHID or registered name, so some information is missing. Use the BHID listed above " +

@@ -44,7 +44,6 @@ public class LeagueCommand extends Command {
                         }
                     }
                     e.getChannel().sendMessage("There is no player with rank \"" + rank + "\"! Try a different rank. (Valid ranks are 1-" + highestRank + ")");
-                    //TODO: show the range of ranks that are valid (1-max rank)
                 }
             } else if (arg.equals("rankings")) {
                 String response = "```Markdown\n<Yammah's Invitational Tourneys Top 10>\n\n";

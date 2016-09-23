@@ -178,4 +178,12 @@ public class Utils {
 
         return randomNum;
     }
+
+    public static double roundToPlace(double d, double place) {
+        double amount = 1;
+        for (int i=0;i<place;i++) {
+            amount *= 10;
+        }
+        return (double)Math.round(d * amount) / amount;
+    }
 }
