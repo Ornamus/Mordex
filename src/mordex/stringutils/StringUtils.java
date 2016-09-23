@@ -83,12 +83,14 @@ public class StringUtils {
             List<String> phraseWords = getWords(o);
             for (String s : phraseWords) {
                 if (contains(message, s)) {
-                    if (results.get(o) == null) {
-                        results.put(o, s);
-                    } else {
-                        results.put(o, results.get(o) + " " + s);
+                    if (!s.equalsIgnoreCase("|")) {
+                        if (results.get(o) == null) {
+                            results.put(o, s);
+                        } else {
+                            results.put(o, results.get(o) + " " + s);
+                        }
+                        partMatches++;
                     }
-                    partMatches++;
                 }
             }
             matches.put(o, partMatches);
