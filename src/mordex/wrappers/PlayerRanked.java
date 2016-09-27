@@ -16,7 +16,7 @@ public class PlayerRanked {
 
     public PlayerRanked(JSONObject o) {
         if (!o.isNull("name")) {
-            Utils.fixEncoding(name = o.getString("name"));
+            name = Utils.fixEncoding(o.getString("name"));
             elo = o.getInt("rating");
             peak_elo = o.getInt("peak_rating");
             tier = o.getString("tier");
