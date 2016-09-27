@@ -17,6 +17,8 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RankCommand extends Command {
@@ -46,16 +48,31 @@ public class RankCommand extends Command {
             }
             if (bhid != -1) {
                 PlayerRanked player = BHApi.getPlayerRanked(bhid);
-                if (player.init) {
+                PlayerStats stats = BHApi.getPlayerStats(bhid);
+                if (player.init && stats.init) {
                     LegendRanked bestLegend = null;
-                    for (LegendRanked l : player.legends) {
-                        if (bestLegend == null) bestLegend = l;
-                        if (l.elo > bestLegend.elo) {
-                            bestLegend = l;
-                        }
-                    }
+                    List<LegendRanked> bestLegends = new ArrayList<>(player.legends);
+                    Collections.sort(bestLegends, (o1, o2) -> o2.elo - o1.elo);
+
+                    bestLegend = bestLegends.get(0);
                     Double percentDouble = player.wins / (player.games * 1.0);
                     percentDouble = Utils.roundToPlace(percentDouble * 100, 0);
+
+                    int playedLegends = 0;
+                    for (LegendRanked l : bestLegends) {
+                        if (l.games > 0) playedLegends++;
+                    }
+
+                    String legendString = "";
+                    int times = 0;
+                    for (LegendRanked l : bestLegends) {
+                        times++;
+                        if (times <= 2) {
+                            legendString += (times == 2 ? " and " : "") + "<" + l.name + ">";
+                        }
+                    }
+
+                    legendString = "Best Legend" + (playedLegends > 1 ? "s" : "") + ": " + legendString + "\n";
 
                     String response = "```Markdown\n" +
                             "# Player Name: " + player.name + "\n\n" +
@@ -63,12 +80,12 @@ public class RankCommand extends Command {
                             "ELO: " + player.elo + " (" + player.tier + ")\n" +
                             "Win/Loss: " + player.wins + "/" + player.losses + " (" + percentDouble.intValue() + "% winrate)\n" +
                             "Rank: " + player.region_rank + " (" + player.global_rank + " global)\n" +
-                            "Best Legend: <" + bestLegend.name + "> " + bestLegend.elo + " ELO\n" +
+                            legendString +
+                            (stats.hasClan ? ("Clan: <" + stats.clanName + ">\n") : "") +
                             "Brawlhalla ID: " + player.bhid + "\n" +
                             "```";
                     e.getChannel().sendMessage(response);
                 } else {
-                    PlayerStats stats = BHApi.getPlayerStats(bhid);
                     if (stats.init) {
                         e.getChannel().sendMessage("\"" + stats.name + "\" has not played ranked yet. There is no ranked data on them.");
                     } else {

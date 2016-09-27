@@ -16,16 +16,14 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-
 import javax.swing.*;
-
 import static org.apache.http.impl.client.HttpClients.*;
 
 public class Main {
 
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.1.4.2";
+    public static final String version = "1.1.4.3";
     public static final String ornamus = "111570080105541632";
 
     public static final boolean DEBUG = false;

@@ -5,9 +5,9 @@ import org.json.JSONObject;
 
 public class PlayerStats {
 
-    public final boolean init;
-    public final String name;
-    public final int level, games, wins, losses, bhid;
+    public final boolean init, hasClan;
+    public final String name, clanName;
+    public final int level, games, wins, losses, bhid, clanID;
     public final double xpPercent;
     //TODO: the rest of the stats
     //https://api.brawlhalla.com/player/101175/stats?api_key=B7Q4OLXXOVPQ3VGQ5XAYIMBXK9UQC
@@ -31,6 +31,16 @@ public class PlayerStats {
             losses = 0;
             bhid = -1;
             init = false;
+        }
+        if (!o.isNull("clan")) {
+            JSONObject clan = o.getJSONObject("clan");
+            hasClan = true;
+            clanName = clan.getString("clan_name");
+            clanID = clan.getInt("clan_id");
+        } else {
+            hasClan = false;
+            clanName = "None";
+            clanID = -1;
         }
     }
 }
