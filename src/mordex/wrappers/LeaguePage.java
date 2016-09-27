@@ -118,7 +118,7 @@ public class LeaguePage {
         public String getInfo() {
             String response = "```Markdown\n" +
                     "# Player Name: " + name + "\n\n" +
-                    "Region: " + "Yammah's Invitational Tourneys\n" +
+                    //"Region: " + "Yammah's Invitational Tourneys\n" +
                     "Rank: " + (rank > 0 ? rank : "Title Holder") + "\n" +
                     "Points: " + points + "\n" +
                     "```";

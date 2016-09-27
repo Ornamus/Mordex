@@ -35,7 +35,7 @@ public class RankedPage {
 
         public RankedEntry(JSONObject o) {
             //System.out.println(o.toString());
-            name = o.getString("name");
+            name = Utils.fixEncoding(o.getString("name"));
             if (!o.isNull("region")) region = o.getString("region");
             else region = null;
             tier = o.getString("tier");

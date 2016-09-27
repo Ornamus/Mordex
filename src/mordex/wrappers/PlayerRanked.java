@@ -1,5 +1,6 @@
 package mordex.wrappers;
 
+import mordex.Utils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class PlayerRanked {
 
     public PlayerRanked(JSONObject o) {
         if (!o.isNull("name")) {
-            name = o.getString("name");
+            Utils.fixEncoding(name = o.getString("name"));
             elo = o.getInt("rating");
             peak_elo = o.getInt("peak_rating");
             tier = o.getString("tier");

@@ -1,6 +1,7 @@
 package mordex;
 
 import mordex.stringutils.StringUtils;
+import mordex.stringutils.UnicodeFormatter;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.Role;
 import net.dv8tion.jda.entities.User;
@@ -185,5 +186,13 @@ public class Utils {
             amount *= 10;
         }
         return (double)Math.round(d * amount) / amount;
+    }
+
+    public static String fixEncoding(String s) {
+        try {
+            return new String(s.getBytes("ISO-8859-1"));
+        } catch (Exception e) {
+            return s;
+        }
     }
 }
