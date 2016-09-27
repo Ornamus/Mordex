@@ -34,8 +34,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mordex/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="30" column="45" selection-start-line="30" selection-start-column="45" selection-end-line="30" selection-end-column="45" />
+            <state relative-caret-position="102">
+              <caret line="27" column="49" selection-start-line="27" selection-start-column="49" selection-end-line="27" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -46,9 +46,21 @@
       <file leaf-file-name="RankCommand.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mordex/commands/RankCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="70" column="59" selection-start-line="70" selection-start-column="59" selection-end-line="70" selection-end-column="59" />
+            <state relative-caret-position="135">
+              <caret line="55" column="79" selection-start-line="55" selection-start-column="79" selection-end-line="55" selection-end-column="79" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mordex/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="356">
+              <caret line="194" column="19" selection-start-line="194" selection-start-column="19" selection-end-line="194" selection-end-column="19" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -105,10 +117,10 @@
         <option value="$PROJECT_DIR$/src/mordex/stringutils/StringUtils.java" />
         <option value="$PROJECT_DIR$/src/mordex/wrappers/LeaguePage.java" />
         <option value="$PROJECT_DIR$/src/mordex/stringutils/UnicodeFormatter.java" />
-        <option value="$PROJECT_DIR$/src/mordex/Utils.java" />
         <option value="$PROJECT_DIR$/src/mordex/wrappers/RankedPage.java" />
-        <option value="$PROJECT_DIR$/src/mordex/commands/RankCommand.java" />
         <option value="$PROJECT_DIR$/src/mordex/wrappers/PlayerRanked.java" />
+        <option value="$PROJECT_DIR$/src/mordex/commands/RankCommand.java" />
+        <option value="$PROJECT_DIR$/src/mordex/Utils.java" />
         <option value="$PROJECT_DIR$/src/mordex/Main.java" />
       </list>
     </option>
@@ -583,7 +595,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/mordex/Utils.java</url>
-          <line>124</line>
+          <line>125</line>
           <properties />
         </line-breakpoint>
       </breakpoints>
@@ -955,16 +967,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mordex/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="187" column="48" selection-start-line="187" selection-start-column="48" selection-end-line="187" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mordex/wrappers/RankedPage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
@@ -983,16 +985,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mordex/commands/RankCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="70" column="59" selection-start-line="70" selection-start-column="59" selection-end-line="70" selection-end-column="59" />
+        <state relative-caret-position="135">
+          <caret line="55" column="79" selection-start-line="55" selection-start-column="79" selection-end-line="55" selection-end-column="79" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mordex/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="194" column="19" selection-start-line="194" selection-start-column="19" selection-end-line="194" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mordex/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="30" column="45" selection-start-line="30" selection-start-column="45" selection-end-line="30" selection-end-column="45" />
+        <state relative-caret-position="102">
+          <caret line="27" column="49" selection-start-line="27" selection-start-column="49" selection-end-line="27" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

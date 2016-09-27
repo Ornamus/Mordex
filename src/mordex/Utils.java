@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -190,7 +191,8 @@ public class Utils {
 
     public static String fixEncoding(String s) {
         try {
-            return new String(s.getBytes("ISO-8859-1"));
+            //return new String(s.getBytes("ISO-8859-1"));
+            return new String(s.getBytes("8859_1"), "UTF8");
         } catch (Exception e) {
             return s;
         }

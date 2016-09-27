@@ -54,18 +54,6 @@ public class RankCommand extends Command {
                     }
                     Double percentDouble = player.wins / (player.games * 1.0);
                     percentDouble = Utils.roundToPlace(percentDouble * 100, 0);
-                    /*
-                    String fakeName = "R\u00c3\u00a8n \u00f0\u009f\u008c\u0080 | Ornamus";
-                    //String fakeName = "R\\u00c3\\u00a8n \\u00f0\\u009f\\u008c\\u0080 | Ornamus";
-                    System.out.println("Start Name: " + fakeName);
-
-                    try {
-                        fakeName = new String(fakeName.getBytes("ISO-8859-1"));
-                        //fakeName = StringEscapeUtils.unescapeJava(fakeName);
-                        System.out.println("New Name: " + fakeName);
-                    } catch (UnsupportedEncodingException exc) {
-                        //e.printStackTrace();
-                    }*/
 
                     String response = "```Markdown\n" +
                             "# Player Name: " + player.name + "\n\n" +
