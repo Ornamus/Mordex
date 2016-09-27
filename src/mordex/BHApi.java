@@ -1,6 +1,7 @@
 package mordex;
 
 import mordex.wrappers.PlayerRanked;
+import mordex.wrappers.PlayerStats;
 import mordex.wrappers.RankedPage;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,12 +11,12 @@ public class BHApi {
     private static final String url = "https://api.brawlhalla.com/";
     private static final String api_key = "B7Q4OLXXOVPQ3VGQ5XAYIMBXK9UQC";
 
-    public static String getPlayerStatsRaw(int bhID) {
-        return Main.getHTML(url + "player/" + bhID + "/stats?api_key=" + api_key);
-    }
-
     public static PlayerRanked getPlayerRanked(int bhID) {
         return new PlayerRanked(new JSONObject(Main.getHTML(url + "player/" + bhID + "/ranked?api_key=" + api_key)));
+    }
+
+    public static PlayerStats getPlayerStats(int bhID) {
+        return new PlayerStats(new JSONObject(Main.getHTML(url + "player/" + bhID + "/stats?api_key=" + api_key)));
     }
 
     public static RankedPage getRankedSearch(String name) {

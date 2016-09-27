@@ -8,7 +8,9 @@ import mordex.searching.DiscordGetResult;
 import mordex.searching.PlayerGetter;
 import mordex.wrappers.LegendRanked;
 import mordex.wrappers.PlayerRanked;
+import mordex.wrappers.PlayerStats;
 import mordex.wrappers.RankedPage;
+import net.dv8tion.jda.audio.player.Player;
 import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -66,7 +68,12 @@ public class RankCommand extends Command {
                             "```";
                     e.getChannel().sendMessage(response);
                 } else {
-                    e.getChannel().sendMessage("Invalid BHID \"" + bhid + "\"! There is no ranked player with that BHID.");
+                    PlayerStats stats = BHApi.getPlayerStats(bhid);
+                    if (stats.init) {
+                        e.getChannel().sendMessage("\"" + stats.name + "\" has not played ranked yet. There is no ranked data on them.");
+                    } else {
+                        e.getChannel().sendMessage("Invalid BHID \"" + bhid + "\"! There is no player (ranked or unranked) with that BHID.");
+                    }
                 }
             } else {
                 RankedPage page = BHApi.getRankedSearch(name);
