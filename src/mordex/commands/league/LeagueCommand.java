@@ -46,10 +46,10 @@ public class LeagueCommand extends Command {
                     e.getChannel().sendMessage("There is no player with rank \"" + rank + "\"! Try a different rank. (Valid ranks are 1-" + highestRank + ")");
                 }
             } else if (arg.equals("rankings")) {
-                String response = "```Markdown\n<Yammah's Invitational Tourneys Top 10>\n\n";
+                String response = "```PROLOG\nYammah's Invitational Tourneys Top 10\n\n\n";
                 for (LeaguePage.PageEntry entry : page.entries) {
                     if (entry.rank <= 10) {
-                        response += "# " + entry.name + " (" + (entry.rank == 0 ? "Title Holder" : ("Rank " + entry.rank)) + ")\n\t" +
+                        response += "\"" + entry.name + "\" (" + (entry.rank == 0 ? "Title Holder" : ("Rank " + entry.rank)) + ")\n\t" +
                                "Points: " + entry.points + "\n\n";
                     }
                 }

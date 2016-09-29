@@ -68,20 +68,20 @@ public class RankCommand extends Command {
                     for (LegendRanked l : bestLegends) {
                         times++;
                         if (times <= 2) {
-                            legendString += (times == 2 ? " and " : "") + "<" + l.name + ">";
+                            legendString += (times == 2 ? " and " : "") + "\"" + l.name + "\"";
                         }
                     }
 
                     legendString = "Best Legend" + (playedLegends > 1 ? "s" : "") + ": " + legendString + "\n";
 
-                    String response = "```Markdown\n" +
-                            "# Player Name: " + player.name + "\n\n" +
-                            "Region: " + player.region + "\n" +
+                    String response = "```PROLOG\n" +
+                            "Name: \"" + player.name + "\"\n\n" +
+                            "Region: \"" + player.region + "\"\n" +
                             "ELO: " + player.elo + " (" + player.tier + ")\n" +
-                            "Win/Loss: " + player.wins + "/" + player.losses + " (" + percentDouble.intValue() + "% winrate)\n" +
+                            "Win/Loss: " + player.wins + "/" + player.losses + " (\"" + percentDouble.intValue() + "%\" winrate)\n" +
                             "Rank: " + player.region_rank + " (" + player.global_rank + " global)\n" +
                             legendString +
-                            (stats.hasClan ? ("Clan: <" + stats.clanName + ">\n") : "") +
+                            (stats.hasClan ? ("Clan: \"" + stats.clanName + "\"\n") : "") +
                             "Brawlhalla ID: " + player.bhid + "\n" +
                             "```";
                     e.getChannel().sendMessage(response);
@@ -101,15 +101,15 @@ public class RankCommand extends Command {
                     Double percentDouble = player.wins / (player.games * 1.0);
                     percentDouble = Utils.roundToPlace(percentDouble * 100, 0);
 
-                    String response = "```Markdown\n" +
-                            "# Player Name: " + player.name + "\n\n" +
-                            "Region: " + player.region + "\n" +
+                    String response = "```PROLOG\n" +
+                            "Name: \"" + player.name + "\"\n\n" +
+                            "Region: \"" + player.region + "\"\n" +
                             "ELO: " + player.elo + " (" + player.tier + ")\n" +
-                            "Win/Loss: " + player.wins + "/" + player.losses + " (" + percentDouble.intValue() + "% winrate)\n" +
+                            "Win/Loss: " + player.wins + "/" + player.losses + " (\"" + percentDouble.intValue() + "%\" winrate)\n" +
                             "Global Rank: " + player.rank + "\n" +
                             "Brawlhalla ID: " + player.bhid + "\n\n" +
-                            "<Notice> This search was not done using a BHID or registered name, so some information is missing. Use the BHID listed above " +
-                            "to get the full data.\n" +
+                            "/* Notice: This search was not done using a BHID or registered name, so some information is missing. Use the BHID listed above " +
+                            "to get the full data. */\n" +
                             "```";
                     e.getChannel().sendMessage(response);
                 } else if (page.getEntryCount() > 1) {
