@@ -32,6 +32,7 @@ import java.util.concurrent.Exchanger;
 public class Listener extends ListenerAdapter {
 
     public static HashMap<String, Integer> DIDToBHID = new HashMap<>();
+    public static HashMap<String, Integer> CLANNAMEtoID = new HashMap<>();
     public static List<Challenge> challenges = new ArrayList<>();
     public static List<Command> commands = new ArrayList<>();
 
@@ -40,6 +41,8 @@ public class Listener extends ListenerAdapter {
     public Listener() {
         commands.add(new BHIDCommand());
         commands.add(new RankCommand());
+        commands.add(new ClanRegisterCommand());
+        commands.add(new ClanCommand());
         /*
         commands.add(new LeagueChallengesCommand());
         commands.add(new LeagueChallengeCommand());
@@ -66,11 +69,18 @@ public class Listener extends ListenerAdapter {
                         writer.println(key + "=" + Listener.DIDToBHID.get(key));
                     }
                     writer.close();
+                    System.out.println("Saving clans to file...");
+                    writer = new PrintWriter("clans.txt", "UTF-8");
+                    for (String key : Listener.CLANNAMEtoID.keySet()) {
+                        writer.println(key + "=" + Listener.CLANNAMEtoID.get(key));
+                    }
+                    writer.close();
+                    /*
                     writer = new PrintWriter("challenges.txt", "UTF-8");
                     for (Challenge c : challenges) {
                         writer.println(c.a.getId() + "chal" + c.b.getId());
                     }
-                    writer.close();
+                    writer.close();*/
                     System.out.println("Save complete.");
                     if (message.startsWith("!update")) {
                         Runtime.getRuntime().exec("java -jar update.jar");

@@ -23,7 +23,7 @@ public class Main {
 
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.1.4.4";
+    public static final String version = "1.2";
     public static final String ornamus = "111570080105541632";
 
     public static final boolean DEBUG = false;
@@ -33,7 +33,7 @@ public class Main {
     public static String tournamentID = null;
     public static String tournamentURL = null;
 
-    private static String[] games = {"BMG Beta API", "Bothalla", "Yammah's Tourney", "Battlebots", "FIRST Stronghold", "What Bow?",
+    private static String[] games = {"BMG Beta API", "Bothalla", "Yammah's Tourney", "Battlebots", "FIRST STEAMworks", "What Bow?",
     "Hiding a Body", "( ͡° ͜ʖ ͡°)", "Robot Uprising", "Stalking Yammah", "\"gayomi ffs\"", "Feeding Turtles", "01100110 01110101",
     "Witty Title", "Biteforce", "Parry", "Winning BCX", "Cookie Clicker", "Dark Souls IV", "Rivals of Aether", "Stealing Money", "CS:GO",
     "Eating w/ Yammah", "Fighting noel", "Roasting Berthen", "Upthrow", "Battlerite", "Sword"};
@@ -79,6 +79,18 @@ public class Main {
                     }
                 }
             }
+            if (new File("clans.txt").exists()) {
+                try (BufferedReader br = new BufferedReader(new FileReader("clans.txt"))) {
+                    String line = br.readLine();
+
+                    while (line != null) {
+                        String[] data = line.split("=");
+                        Listener.CLANNAMEtoID.put(data[0], Integer.parseInt(data[1]));
+                        line = br.readLine();
+                    }
+                }
+            }
+            /*
             if (new File("challenges.txt").exists()) {
                 try (BufferedReader br = new BufferedReader(new FileReader("challenges.txt"))) {
                     String line = br.readLine();
@@ -91,7 +103,7 @@ public class Main {
                         line = br.readLine();
                     }
                 }
-            }
+            }*/
             admins.add(ornamus);
             admins.add("131098385599037440"); //Aiden
             admins.add("126221145144950784"); //Yammah

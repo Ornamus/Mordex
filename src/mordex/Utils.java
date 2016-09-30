@@ -17,10 +17,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -196,5 +193,15 @@ public class Utils {
         } catch (Exception e) {
             return s;
         }
+    }
+
+    public static Double getPercent(double part, double total) {
+        Double percentDouble = total / (part * 1.0);
+        percentDouble = Utils.roundToPlace(percentDouble * 100, 0);
+        return percentDouble;
+    }
+
+    public static Date toDate(int i) {
+        return new Date(((long)i)*1000L);
     }
 }

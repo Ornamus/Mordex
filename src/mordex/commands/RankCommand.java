@@ -1,6 +1,6 @@
 package mordex.commands;
 
-import mordex.BHApi;
+import mordex.BHA;
 import mordex.Listener;
 import mordex.Main;
 import mordex.Utils;
@@ -10,15 +10,11 @@ import mordex.wrappers.LegendRanked;
 import mordex.wrappers.PlayerRanked;
 import mordex.wrappers.PlayerStats;
 import mordex.wrappers.RankedPage;
-import net.dv8tion.jda.audio.player.Player;
 import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
-import org.apache.commons.lang3.StringEscapeUtils;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class RankCommand extends Command {
@@ -47,8 +43,8 @@ public class RankCommand extends Command {
                 }
             }
             if (bhid != -1) {
-                PlayerRanked player = BHApi.getPlayerRanked(bhid);
-                PlayerStats stats = BHApi.getPlayerStats(bhid);
+                PlayerRanked player = BHA.getPlayerRanked(bhid);
+                PlayerStats stats = BHA.getPlayerStats(bhid);
                 if (player.init && stats.init) {
                     LegendRanked bestLegend = null;
                     List<LegendRanked> bestLegends = new ArrayList<>(player.legends);
@@ -81,7 +77,7 @@ public class RankCommand extends Command {
                             "Win/Loss: " + player.wins + "/" + player.losses + " (\"" + percentDouble.intValue() + "%\" winrate)\n" +
                             "Rank: " + player.region_rank + " (" + player.global_rank + " global)\n" +
                             legendString +
-                            (stats.hasClan ? ("Clan: \"" + stats.clanName + "\"\n") : "") +
+                            (stats.hasClan ? ("Clan: \"" + stats.clanName + "\" (ID " + stats.clanID + ")\n") : "") +
                             "Brawlhalla ID: " + player.bhid + "\n" +
                             "```";
                     e.getChannel().sendMessage(response);
@@ -93,7 +89,7 @@ public class RankCommand extends Command {
                     }
                 }
             } else {
-                RankedPage page = BHApi.getRankedSearch(name);
+                RankedPage page = BHA.getRankedSearch(name);
                 if (page.getEntryCount() == 1) {
                     System.out.println("searching for " + name);
                     RankedPage.RankedEntry player = page.getEntry(0);
