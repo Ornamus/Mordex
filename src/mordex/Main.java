@@ -1,7 +1,5 @@
 package mordex;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -23,7 +21,7 @@ public class Main {
 
     private static JDA jda;
     public static final List<String> admins = new ArrayList<>();
-    public static final String version = "1.2";
+    public static final String version = "1.2.1";
     public static final String ornamus = "111570080105541632";
 
     public static final boolean DEBUG = false;

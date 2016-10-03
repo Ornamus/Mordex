@@ -45,12 +45,18 @@ public class RankCommand extends Command {
             if (bhid != -1) {
                 PlayerRanked player = BHA.getPlayerRanked(bhid);
                 PlayerStats stats = BHA.getPlayerStats(bhid);
+                RankedPage rankedPage = BHA.getRankedSearch(player.init ? player.name : ""); //TODO: delete usages of this once BMG gives back the "rank" field on player/ranked responses
+                int globalRank = -1;
+                System.out.println(rankedPage.getEntries().size() + " entries");
+                for (RankedPage.RankedEntry r : rankedPage.getEntries()) {
+                    if (r.bhid == bhid) {
+                        globalRank = r.rank;
+                    }
+                }
                 if (player.init && stats.init) {
-                    LegendRanked bestLegend = null;
                     List<LegendRanked> bestLegends = new ArrayList<>(player.legends);
                     Collections.sort(bestLegends, (o1, o2) -> o2.elo - o1.elo);
 
-                    bestLegend = bestLegends.get(0);
                     Double percentDouble = player.wins / (player.games * 1.0);
                     percentDouble = Utils.roundToPlace(percentDouble * 100, 0);
 
@@ -75,7 +81,8 @@ public class RankCommand extends Command {
                             "Region: \"" + player.region + "\"\n" +
                             "ELO: " + player.elo + " (" + player.tier + ")\n" +
                             "Win/Loss: " + player.wins + "/" + player.losses + " (\"" + percentDouble.intValue() + "%\" winrate)\n" +
-                            "Rank: " + player.region_rank + " (" + player.global_rank + " global)\n" +
+                            (globalRank > -1 ? ("Global Rank: " + globalRank) : "Rank: /* Temporarily disabled by BMG */") + "\n" +
+                            //"Rank: " + player.region_rank + " (" + player.global_rank + " global)\n" +
                             legendString +
                             (stats.hasClan ? ("Clan: \"" + stats.clanName + "\" (ID " + stats.clanID + ")\n") : "") +
                             "Brawlhalla ID: " + player.bhid + "\n" +
@@ -91,7 +98,6 @@ public class RankCommand extends Command {
             } else {
                 RankedPage page = BHA.getRankedSearch(name);
                 if (page.getEntryCount() == 1) {
-                    System.out.println("searching for " + name);
                     RankedPage.RankedEntry player = page.getEntry(0);
 
                     Double percentDouble = player.wins / (player.games * 1.0);

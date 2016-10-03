@@ -2,24 +2,13 @@ package mordex;
 
 import mordex.challonge.QuickCommand;
 import mordex.commands.*;
+import mordex.commands.clan.ClanCommand;
+import mordex.commands.clan.ClanRegisterCommand;
 import mordex.commands.league.*;
-import mordex.commands.tournament.TournamentCreateCommand;
-import mordex.commands.tournament.TournamentGetCommand;
-import mordex.commands.tournament.TournamentJoinCommand;
-import mordex.searching.DiscordGetResult;
-import mordex.searching.PlayerGetResult;
-import mordex.searching.PlayerGetter;
-import mordex.wrappers.LeaguePage;
-import mordex.wrappers.LegendRanked;
-import mordex.wrappers.PlayerRanked;
-import mordex.wrappers.RankedPage;
-import net.dv8tion.jda.entities.Role;
 import net.dv8tion.jda.entities.TextChannel;
-import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.hooks.ListenerAdapter;
 import net.dv8tion.jda.utils.AvatarUtil;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -27,7 +16,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Exchanger;
 
 public class Listener extends ListenerAdapter {
 
